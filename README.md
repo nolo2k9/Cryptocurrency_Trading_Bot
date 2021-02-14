@@ -8,7 +8,7 @@ Set up virtual environment:
 https://packaging.python.org/guides/installing-using-pip-and-virtual-environments/
 
 Install requirements.txt:
-pip3 -r requirements.txt  
+pip3 install -r requirements.txt  
 
 ***References***
 
