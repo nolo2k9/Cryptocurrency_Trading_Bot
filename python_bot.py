@@ -25,30 +25,31 @@ client = Client(config.API_KEY, config.API_SECRET)
 def order(side, quantity, symbol,order_type=ORDER_TYPE_MARKET):
     try:
         #Sending order to binance
-        print("sending order....")
+        print("Sending order....")
         #order data
         order = client.create_order(symbol=symbol, side=side, type=order_type, quantity=quantity)
         #print order made
+        print("Order completed!!!!")
         print(order)
     #Failed payment
     except Exception as e:
-        print("an exception occured - {}".format(e))
+        print("an exception has occured - {}".format(e))
         return False
 
     return True
 
 #Connection opened   
 def on_open(ws):
-    print('opened connection')
+    print('Opened connection')
 #Connection closed   
 def on_close(ws):
-    print('closed connection')
+    print('Closed connection')
     
 #Message recieved
 def on_message(ws, message):
     global closes, in_position
     
-    print('received message')
+    print('Incoming Message')
     json_message = json.loads(message)
     #Print in readable format
     pprint.pprint(json_message)
@@ -60,9 +61,9 @@ def on_message(ws, message):
 
     if is_candle_closed:
         #Print out candle closing data
-        print("candle closed at {}".format(close))
+        print("Candle closed at {}".format(close))
         closes.append(float(close))
-        print("closes")
+        print("Closes: ")
         print(closes)
         #if number of closes is greater than the RSI period
         if len(closes) > RSI_PERIOD:
@@ -88,7 +89,7 @@ def on_message(ws, message):
              #if the previous RSI is LESS than the oversold limit
             if last_rsi < RSI_OVERSOLD:
                 if in_position:
-                    print("{TRADE_SYMBOL} is oversold,  but you already own any of this curreny. DOING NOTHING!!!!!.")
+                    print("{TRADE_SYMBOL} is OVERSOLD, but you already own this curreny. DOING NOTHING!!!!!.")
                 else:
                     print("{TRADE_SYMBOL} is OVERSOLD, BUYING {TRADE_SYMBOL} !!!!!!!!!")
                     # buy logic
